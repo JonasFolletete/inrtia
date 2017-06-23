@@ -1,0 +1,45 @@
+{
+	"name": "inrtia",
+	"version": "0.1.1",
+	"description": "",
+	"keywords": [],
+	"main": "src/inrtia.js",
+	"bin": {
+		"inrtia": "bin/inrtia.js"
+	},
+	"scripts": {
+		"build": "yarn compile && yarn min  && yarn copy_demo",
+		"compile": "rollup -c",
+		"copy_demo": "cp bin/inrtia.js demo/js/inrtia.js",
+		"deploy": "ghp demo",
+		"min": "uglifyjs --compress --mangle --output bin/inrtia.min.js -- bin/inrtia.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JonasFolletete/inrtia.git"
+	},
+	"author": "Jonas Folletête",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/JonasFolletete/inrtia/issues"
+	},
+	"homepage": "https://github.com/JonasFolletete/inrtia",
+	"devDependencies": {
+		"babel-eslint": "^7.2.3",
+		"eslint": "^4.0.0",
+		"eslint-config-airbnb-base": "^11.2.0",
+		"eslint-plugin-import": "^2.3.0",
+		"ghp": "^1.1.4",
+		"rollup": "^0.43.0",
+		"rollup-plugin-babel": "^2.7.1",
+		"rollup-plugin-node-resolve": "^3.0.0",
+		"uglify-js": "^3.0.18"
+  },
+  "dependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-latest": "^6.24.1"
+  },
+	"engines": {
+		"node": ">=6.0.0"
+	}
+}

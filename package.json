@@ -2,21 +2,19 @@
 	"name": "inrtia",
 	"version": "0.1.2",
 	"description": "",
-  "keywords": [],
-  
+	"keywords": [],
 	"main": "bin/inrtia.js",
-  "module": "bin/inrtia.module.js",
-  "jsnext:main": "bin/inrtia.module.js",
-  "unpkg": "bin/inrtia.browser.js",
-  "jsdelivr": "bin/inrtia.browser.js",
-
+	"module": "bin/inrtia.module.js",
+	"jsnext:main": "bin/inrtia.module.js",
+	"unpkg": "bin/inrtia.browser.js",
+	"jsdelivr": "bin/inrtia.browser.js",
 	"scripts": {
 		"build": "npm run compile && npm run min  && npm run copy_demo",
 		"compile": "rollup -c",
 		"copy_demo": "cp bin/inrtia.browser.js demo/js/inrtia.js",
 		"deploy": "ghp demo",
-    "min": "uglifyjs --compress --mangle --output bin/inrtia.browser.min.js -- bin/inrtia.browser.js",
-    "postversion": "npm run build"
+		"min": "uglifyjs --compress --mangle --output bin/inrtia.browser.min.js -- bin/inrtia.browser.js",
+		"version": "npm run build && git add -A"
 	},
 	"repository": {
 		"type": "git",

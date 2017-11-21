@@ -31,13 +31,9 @@ window.onload = function () {
 
   //params
   var values = [0];
-
-
   tick();
 
-  setTimeout(function() {
-    start();
-  },500);
+  start();
 
   function start(event) {
     inrtia.stop();
@@ -53,7 +49,7 @@ window.onload = function () {
 
   function tick() {
     if (!inrtia.stopped) {
-      inrtia.update();
+      inrtia.update(17);
       render();
     }
     window.requestAnimationFrame(tick);
@@ -115,11 +111,11 @@ window.onload = function () {
       p1 = {x : step * i, y : h * (1 - bnd(values[i]))};
       p2 = {x : step * (i+1), y : h * (1 - bnd(values[i+1]))};
 
-      // if (values[i] == inrtia.targetValue) {
-      //   context.lineTo(p1.x, p1.y);
-      // } else {
+      if (values[i] == inrtia.targetValue) {
+        context.lineTo(p1.x, p1.y);
+      } else {
         context.quadraticCurveTo(p1.x, p1.y, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-      // }
+      }
 
     }
 

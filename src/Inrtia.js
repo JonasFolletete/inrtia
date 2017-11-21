@@ -48,24 +48,21 @@ class Inrtia {
     this.lastTime = Date.now() - 17;
   }
 
-  update() {
+  update(deltaTime = false) {
     if (this.stopped) return false;
 
     const now = Date.now();
-    const dTime = (now - this.lastTime) / 1000;
+    const dTime = deltaTime || ((now - this.lastTime) / 1000);
 
     const diff = this.value - this.targetValue;
-    this.value = this.interpolationFn.call(this,
-      this.value, this.targetValue, this.interpolationParams, dTime, this.reset);
+    this.value = this.interpolationFn.call(this, this.value, this.targetValue,
+      this.interpolationParams, dTime, this.reset);
 
     if (this.reset) this.reset = false;
-
-    // if (this._updateCallback) this._updateCallback();
 
     if (this.needStop(diff)) {
       if (this.perfectStop) this.value = this.targetValue;
       this.stop();
-      // if (this._stoppedCallback) this._stoppedCallback();
     }
 
     this.lastTime = now;

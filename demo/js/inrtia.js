@@ -127,22 +127,21 @@ var Inrtia = function () {
   }, {
     key: 'update',
     value: function update() {
+      var deltaTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
       if (this.stopped) return false;
 
       var now = Date.now();
-      var dTime = (now - this.lastTime) / 1000;
+      var dTime = deltaTime || (now - this.lastTime) / 1000;
 
       var diff = this.value - this.targetValue;
       this.value = this.interpolationFn.call(this, this.value, this.targetValue, this.interpolationParams, dTime, this.reset);
 
       if (this.reset) this.reset = false;
 
-      // if (this._updateCallback) this._updateCallback();
-
       if (this.needStop(diff)) {
         if (this.perfectStop) this.value = this.targetValue;
         this.stop();
-        // if (this._stoppedCallback) this._stoppedCallback();
       }
 
       this.lastTime = now;

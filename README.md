@@ -93,8 +93,11 @@ function raf() {
 			<td>Update targetValue value and restart inrtia (if stopped)</td>
 		</tr>
 		<tr>
-			<th scope="row" align="left"><code>.update()</code></th>
-			<td>Method to update inrtia (to use in <code>requestAnimationFrame</code>)</td>
+			<th scope="row" align="left"><code>.update(deltaTime : &lt;number&gt; = false)</code></th>
+			<td>Method to update inrtia (to use in <code>requestAnimationFrame</code>). <br/>
+			If no deltaTime is not specified then it's automatically detected.<br/>
+			This method also return the current value.
+			</td>
 		</tr>
 		<tr>
 			<th scope="row" align="left"><code>.stop()</code></th>

@@ -122,7 +122,7 @@ var Inrtia = function () {
       if (this.stopped) return false;
 
       var now = Date.now();
-      var dTime = deltaTime || (now - this.lastTime) / 1000;
+      var dTime = (deltaTime || now - this.lastTime) / 1000;
 
       var diff = this.value - this.targetValue;
       this.value = this.interpolationFn.call(this, this.value, this.targetValue, this.interpolationParams, dTime, this.reset);

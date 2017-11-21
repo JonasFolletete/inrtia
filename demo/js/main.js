@@ -126,12 +126,6 @@ window.onload = function () {
     context.fill();
     context.stroke();
 
-    // point
-    context.globalAlpha = 1;
-    context.beginPath();
-    context.arc(w,  h * (1 - bnd(inrtia.value)), radius, 0, 2 * Math.PI);
-    context.fill();
-
     //target
     var y = h * (1 - bnd(inrtia.targetValue));
     context.beginPath();
@@ -140,6 +134,12 @@ window.onload = function () {
     context.moveTo(0, y);
     context.lineTo(w, y);
     context.stroke();
+
+    // point
+    context.globalAlpha = 1;
+    context.beginPath();
+    context.arc(w,  h * (1 - bnd(inrtia.value)), radius, 0, 2 * Math.PI);
+    context.fill();
 
   }
 

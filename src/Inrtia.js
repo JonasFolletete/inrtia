@@ -52,7 +52,7 @@ class Inrtia {
     if (this.stopped) return false;
 
     const now = Date.now();
-    const dTime = deltaTime || ((now - this.lastTime) / 1000);
+    const dTime = (deltaTime || (now - this.lastTime)) / 1000;
 
     const diff = this.value - this.targetValue;
     this.value = this.interpolationFn.call(this, this.value, this.targetValue,

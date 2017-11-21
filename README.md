@@ -95,8 +95,8 @@ function raf() {
 		<tr>
 			<th scope="row" align="left"><code>.update(deltaTime : &lt;number&gt; = false)</code></th>
 			<td>Method to update inrtia (to use in <code>requestAnimationFrame</code>). <br/>
-			If no deltaTime is not specified then it's automatically detected.<br/>
-			This method also return the current value.
+			If deltaTime (milliseconds) is not specified then it's automatically detected.<br/>
+			The method also return the current value.
 			</td>
 		</tr>
 		<tr>

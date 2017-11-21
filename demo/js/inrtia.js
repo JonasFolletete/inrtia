@@ -23,18 +23,8 @@ var elastic = function (current, target, params, dTime, reset) {
   return current + this.speed * dTime;
 };
 
-var frictionMultiplier$1 = 100; // uniform friction through interpolation
-
 var bounce = function (current, target, params, dTime, reset) {
-  if (reset) this.speed = 0;
-
-  var delta = current - target;
-  var spring = -delta / (params.friction / frictionMultiplier$1);
-  var damper = -params.rigidity * this.speed;
-  var acc = (spring + damper) / params.mass;
-
-  this.speed += acc * dTime;
-  var result = current + this.speed * dTime;
+  var result = elastic.call(this, current, target, params, dTime, reset);
 
   if (result - target >= 0) {
     this.speed = -this.speed;

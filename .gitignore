@@ -60,3 +60,4 @@ Temporary Items
 # *.sublime-project
 # sftp configuration file
 sftp-config.json
+/yarn.lock

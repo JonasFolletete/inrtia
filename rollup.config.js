@@ -3,7 +3,6 @@ import babel from 'rollup-plugin-babel';
 
 export default {
   entry: 'src/Inrtia.js',
-  format: 'iife',
   moduleName: 'Inrtia',
   plugins: [
     resolve(),
@@ -11,5 +10,9 @@ export default {
       exclude: 'node_modules/**' // only transpile our source code
     })
   ],
-  dest: 'bin/inrtia.js'
+  output: [
+    { file: 'bin/inrtia.browser.js', format: 'umd' },
+    { file: 'bin/inrtia.module.js', format: 'es' },
+    { file: 'bin/inrtia.js', format: 'cjs' }
+  ]
 };

@@ -1,5 +1,3 @@
-'use strict';
-
 var linear = function (current, target, params) {
   var delta = current - target;
   return current - delta / params.friction;
@@ -168,4 +166,4 @@ var Inrtia = function () {
   return Inrtia;
 }();
 
-module.exports = Inrtia;
+export default Inrtia;

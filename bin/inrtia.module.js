@@ -113,7 +113,7 @@ var Inrtia = function () {
     value: function update() {
       var deltaTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-      if (this.stopped) return false;
+      if (this.stopped) return this.value;
 
       var now = Date.now();
       var dTime = (deltaTime || now - this.lastTime) / 1000;

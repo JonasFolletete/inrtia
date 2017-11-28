@@ -49,7 +49,7 @@ class Inrtia {
   }
 
   update(deltaTime = false) {
-    if (this.stopped) return false;
+    if (this.stopped) return this.value;
 
     const now = Date.now();
     const dTime = (deltaTime || (now - this.lastTime)) / 1000;

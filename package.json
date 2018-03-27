@@ -1,8 +1,15 @@
 {
   "name": "inrtia",
-  "version": "0.1.5",
-  "description": "",
-  "keywords": [],
+  "version": "0.1.6",
+  "description": "☄️ lightweight inertia based animation library",
+  "keywords": [
+    "anime",
+    "inertia",
+    "physic",
+    "animation",
+    "javascript",
+    "tween"
+  ],
   "main": "bin/inrtia.js",
   "module": "bin/inrtia.module.js",
   "jsnext:main": "bin/inrtia.module.js",

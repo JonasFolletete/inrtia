@@ -27,14 +27,7 @@
 		"import/no-unresolved": 2,
 		"import/prefer-default-export": 0,
 		"max-len": [
-			"error",
-			{
-				"code": 80,
-				"ignoreUrls": true,
-				"ignoreComments": true,
-				"ignoreStrings": true,
-				"ignoreTemplateLiterals": true
-			}
+			0
 		],
 		"new-cap": [
 			2,
@@ -47,7 +40,10 @@
 		"no-shadow": 0,
 		"no-plusplus": 0,
 		"no-bitwise": 0,
+		"func-name": 0,
+		"one-var": 0,
 		"no-tabs": 0, 
+		"one-var-declaration-per-line": 0, 
 		"no-underscore-dangle": 0
 	},
 	"settings": {

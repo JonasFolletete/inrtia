@@ -17,6 +17,10 @@ class Inrtia {
     this.targetValue = value;
     this.stopped = true;
 
+    // Detect if value is Array of Object
+    this.complex = (typeof value) === 'object';
+    if (this.complex) this.keys = Object.keys(this.value);
+
     // Stop params
     this.precisionStop = precisionStop;
     this.perfectStop = perfectStop;
@@ -38,11 +42,21 @@ class Inrtia {
   }
 
   to(targetValue) {
-    this.targetValue = targetValue;
-    if (this.stopped) this.start();
+    if (this.complex) {
+      let key, l = this.keys.length;
+
+      while (l--) {
+        key = this.keys[l];
+        if (targetValue[key]) this.targetValue[key] = targetValue[key];
+      }
+    } else {
+      this.targetValue = targetValue;
+    }
+
+    if (this.stopped) this._start();
   }
 
-  start() {
+  _start() {
     this.reset = true;
     this.stopped = false;
     this.lastTime = Date.now() - 17;
@@ -53,14 +67,25 @@ class Inrtia {
 
     const now = Date.now();
     const dTime = (deltaTime || (now - this.lastTime)) / 1000;
+    let needStop = true;
 
-    const diff = this.value - this.targetValue;
-    this.value = this.interpolationFn.call(this, this.value, this.targetValue,
-      this.interpolationParams, dTime, this.reset);
+    // Loop if object is complex
+    if (this.complex) {
+      let key, l = this.keys.length;
+
+      while (l--) {
+        key = this.keys[l];
+        this.value[key] = this._updateValue(this.value[key], this.targetValue[key], dTime, key);
+        needStop = needStop && this._needStop(this.value[key], this.targetValue[key], key);
+      }
+    } else {
+      this.value = this._updateValue(this.value, this.targetValue, dTime, false);
+      needStop = this._needStop(this.value, this.targetValue, false);
+    }
 
     if (this.reset) this.reset = false;
 
-    if (this.needStop(diff)) {
+    if (needStop) {
       if (this.perfectStop) this.value = this.targetValue;
       this.stop();
     }
@@ -69,11 +94,35 @@ class Inrtia {
     return this.value;
   }
 
-  needStop(diff) {
+  _updateValue(value, targetValue, dTime, key) {
+    return this.interpolationFn.call(this, value, targetValue, this.interpolationParams, dTime, this.reset, key);
+  }
+
+  _needStop(value, targetValue, key) {
+    const diff = value - targetValue;
+    const speed = this._getSpeed(key);
+
     if (Math.abs(diff) < this.precisionStop) {
-      if (isNaN(this.speed)) return true;
-      return Math.abs(this.speed) < this.precisionStop;
+      if (isNaN(speed)) return true;
+      return Math.abs(speed) < this.precisionStop;
     } return false;
+  }
+
+  _setSpeed(value, key) {
+    if (this.complex) this.speed[key] = value;
+    else this.speed = value;
+  }
+
+  _getSpeed(key) {
+    if (this.complex) return this.speed[key];
+    return this.speed;
+  }
+
+  _resetSpeed(key) {
+    if (this.complex) {
+      if (!this.speed) this.speed = {};
+      this.speed[key] = 0;
+    } else this.speed = 0;
   }
 
   stop() {

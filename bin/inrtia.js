@@ -7,28 +7,46 @@ var linear = function (current, target, params) {
 
 var frictionMultiplier = 100; // uniform friction through interpolation
 
-var elastic = function (current, target, params, dTime, reset) {
-  if (reset) this.speed = 0;
+var elastic = function (current, target, params, dTime, reset, key) {
+  if (reset) this._resetSpeed(key);
 
+  var speed = this._getSpeed(key);
   var delta = current - target;
   var spring = -delta / (params.friction / frictionMultiplier);
-  var damper = -params.rigidity * this.speed;
+  var damper = -params.rigidity * speed;
   var acc = (spring + damper) / params.mass;
 
-  this.speed += acc * dTime;
-  return current + this.speed * dTime;
+  speed += acc * dTime;
+  this._setSpeed(speed, key);
+  return current + speed * dTime;
 };
 
-var bounce = function (current, target, params, dTime, reset) {
+var bounce = function (current, target, params, dTime, reset, key) {
   var result = elastic.call(this, current, target, params, dTime, reset);
 
   if (result - target >= 0) {
-    this.speed = -this.speed;
+    this._setSpeed(-this._getSpeed(key), key);
     return target;
   }
 
   return result;
 };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -76,6 +94,10 @@ var Inrtia = function () {
     this.targetValue = value;
     this.stopped = true;
 
+    // Detect if value is Array of Object
+    this.complex = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+    if (this.complex) this.keys = Object.keys(this.value);
+
     // Stop params
     this.precisionStop = precisionStop;
     this.perfectStop = perfectStop;
@@ -100,12 +122,23 @@ var Inrtia = function () {
   }, {
     key: 'to',
     value: function to(targetValue) {
-      this.targetValue = targetValue;
-      if (this.stopped) this.start();
+      if (this.complex) {
+        var key = void 0,
+            l = this.keys.length;
+
+        while (l--) {
+          key = this.keys[l];
+          if (targetValue[key]) this.targetValue[key] = targetValue[key];
+        }
+      } else {
+        this.targetValue = targetValue;
+      }
+
+      if (this.stopped) this._start();
     }
   }, {
-    key: 'start',
-    value: function start() {
+    key: '_start',
+    value: function _start() {
       this.reset = true;
       this.stopped = false;
       this.lastTime = Date.now() - 17;
@@ -119,13 +152,26 @@ var Inrtia = function () {
 
       var now = Date.now();
       var dTime = (deltaTime || now - this.lastTime) / 1000;
+      var needStop = true;
 
-      var diff = this.value - this.targetValue;
-      this.value = this.interpolationFn.call(this, this.value, this.targetValue, this.interpolationParams, dTime, this.reset);
+      // Loop if object is complex
+      if (this.complex) {
+        var key = void 0,
+            l = this.keys.length;
+
+        while (l--) {
+          key = this.keys[l];
+          this.value[key] = this._updateValue(this.value[key], this.targetValue[key], dTime, key);
+          needStop = needStop && this._needStop(this.value[key], this.targetValue[key], key);
+        }
+      } else {
+        this.value = this._updateValue(this.value, this.targetValue, dTime, false);
+        needStop = this._needStop(this.value, this.targetValue, false);
+      }
 
       if (this.reset) this.reset = false;
 
-      if (this.needStop(diff)) {
+      if (needStop) {
         if (this.perfectStop) this.value = this.targetValue;
         this.stop();
       }
@@ -134,12 +180,39 @@ var Inrtia = function () {
       return this.value;
     }
   }, {
-    key: 'needStop',
-    value: function needStop(diff) {
+    key: '_updateValue',
+    value: function _updateValue(value, targetValue, dTime, key) {
+      return this.interpolationFn.call(this, value, targetValue, this.interpolationParams, dTime, this.reset, key);
+    }
+  }, {
+    key: '_needStop',
+    value: function _needStop(value, targetValue, key) {
+      var diff = value - targetValue;
+      var speed = this._getSpeed(key);
+
       if (Math.abs(diff) < this.precisionStop) {
-        if (isNaN(this.speed)) return true;
-        return Math.abs(this.speed) < this.precisionStop;
+        if (isNaN(speed)) return true;
+        return Math.abs(speed) < this.precisionStop;
       }return false;
+    }
+  }, {
+    key: '_setSpeed',
+    value: function _setSpeed(value, key) {
+      if (this.complex) this.speed[key] = value;else this.speed = value;
+    }
+  }, {
+    key: '_getSpeed',
+    value: function _getSpeed(key) {
+      if (this.complex) return this.speed[key];
+      return this.speed;
+    }
+  }, {
+    key: '_resetSpeed',
+    value: function _resetSpeed(key) {
+      if (this.complex) {
+        if (!this.speed) this.speed = {};
+        this.speed[key] = 0;
+      } else this.speed = 0;
     }
   }, {
     key: 'stop',

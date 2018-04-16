@@ -1,6 +1,6 @@
 {
   "name": "inrtia",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "☄️ lightweight inertia based animation library",
   "keywords": [
     "anime",
@@ -42,9 +42,7 @@
     "rollup": "^0.51.8",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "uglify-js": "^3.0.18"
-  },
-  "dependencies": {
+    "uglify-js": "^3.0.18",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-latest": "^6.24.1"
   },

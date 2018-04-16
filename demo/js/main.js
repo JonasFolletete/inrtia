@@ -140,7 +140,6 @@ window.onload = function () {
     context.beginPath();
     context.arc(w,  h * (1 - bnd(inrtia.value)), radius, 0, 2 * Math.PI);
     context.fill();
-
   }
 
   function getBounder() {
@@ -162,6 +161,8 @@ window.onload = function () {
   }
 
   function updateInterpolation() {
+    var rigidity = document.querySelector('input[name=rigidity]')
+    rigidity.disabled = interpolationSelect.value === 'linear'
     inrtia.stop();
     inrtia.interpolationFn = inrtia.getInterpolation(interpolationSelect.value);
   }

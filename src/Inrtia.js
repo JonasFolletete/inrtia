@@ -14,12 +14,24 @@ class Inrtia {
   }) {
     // Property params
     this.value = value;
-    this.targetValue = value;
     this.stopped = true;
 
     // Detect if value is Array of Object
     this.complex = (typeof value) === 'object';
-    if (this.complex) this.keys = Object.keys(this.value);
+
+    // If complex we extract keys and we copy array / object
+    if (this.complex) {
+      this.keys = Object.keys(this.value);
+      if (Array.isArray(value)) {
+        this.targetValue = value.slice(0);
+      } else {
+        this.targetValue = {};
+        let l = this.keys.length;
+        while (l--) this.targetValue[this.keys[l]] = this.value[this.keys[l]];
+      }
+    } else {
+      this.targetValue = value;
+    }
 
     // Stop params
     this.precisionStop = precisionStop;
@@ -114,7 +126,7 @@ class Inrtia {
   }
 
   _getSpeed(key) {
-    if (this.complex) return this.speed[key];
+    if (this.complex) return this.speed && this.speed[key];
     return this.speed;
   }
 

@@ -26,7 +26,7 @@ var elastic = function (current, target, params, dTime, reset, key) {
 };
 
 var bounce = function (current, target, params, dTime, reset, key) {
-  var result = elastic.call(this, current, target, params, dTime, reset);
+  var result = elastic.call(this, current, target, params, dTime, reset, key);
 
   if (result - target >= 0) {
     this._setSpeed(-this._getSpeed(key), key);
@@ -95,12 +95,26 @@ var Inrtia = function () {
 
     // Property params
     this.value = value;
-    this.targetValue = value;
     this.stopped = true;
 
     // Detect if value is Array of Object
     this.complex = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
-    if (this.complex) this.keys = Object.keys(this.value);
+
+    // If complex we extract keys and we copy array / object
+    if (this.complex) {
+      this.keys = Object.keys(this.value);
+      if (Array.isArray(value)) {
+        this.targetValue = value.slice(0);
+      } else {
+        this.targetValue = {};
+        var l = this.keys.length;
+        while (l--) {
+          this.targetValue[this.keys[l]] = this.value[this.keys[l]];
+        }
+      }
+    } else {
+      this.targetValue = value;
+    }
 
     // Stop params
     this.precisionStop = precisionStop;
@@ -207,7 +221,7 @@ var Inrtia = function () {
   }, {
     key: '_getSpeed',
     value: function _getSpeed(key) {
-      if (this.complex) return this.speed[key];
+      if (this.complex) return this.speed && this.speed[key];
       return this.speed;
     }
   }, {

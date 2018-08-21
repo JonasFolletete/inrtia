@@ -98,7 +98,19 @@ class Inrtia {
     if (this.reset) this.reset = false;
 
     if (needStop) {
-      if (this.perfectStop) this.value = this.targetValue;
+      if (this.perfectStop) {
+        if (this.complex) {
+          let key2, l2 = this.keys.length;
+
+          while (l2--) {
+            key2 = this.keys[l2];
+            this.value[key2] = this.targetValue[key2];
+          }
+        } else {
+          this.value = this.targetValue;
+        }
+      }
+
       this.stop();
     }
 

@@ -12,7 +12,7 @@ import Inrtia from 'inrtia';
 
 var inrtia = new Inrtia({
 	value : 0,
-	interpolation : 'linear'
+	interpolation : 'basic'
 });
 
 inrtia.to(20);
@@ -70,8 +70,8 @@ inrtia.to([10, 20, 30]);
 		</tr>
 		<tr>
 			<th scope="row" align="left" nowrap><code>interpolation</code></th>
-			<td nowrap><code>String (linear|bounce|elastic)</code></td>
-			<td><code>linear</code></td>
+			<td nowrap><code>String (basic|bounce|elastic)</code></td>
+			<td><code>basic</code></td>
 			<td>Method used for interpolation</td>
 		</tr>
 		<tr>
@@ -84,7 +84,7 @@ inrtia.to([10, 20, 30]);
 			<th scope="row" align="left" nowrap><code>rigidity</code></th>
 			<td><code>Number</code></td>
 			<td><code>0.1</code></td>
-			<td>The rate at which values oscillate after being updated. (not available for <code>linear</code>)</td>
+			<td>The rate at which values oscillate after being updated. (not available for <code>basic</code>)</td>
 		</tr>
 		<tr>
 			<th scope="row" align="left" nowrap><code>precisionStop</code></th>

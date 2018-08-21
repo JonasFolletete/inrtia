@@ -162,7 +162,7 @@ window.onload = function () {
 
   function updateInterpolation() {
     var rigidity = document.querySelector('input[name=rigidity]')
-    rigidity.disabled = interpolationSelect.value === 'linear'
+    rigidity.disabled = interpolationSelect.value === 'basic'
     inrtia.stop();
     inrtia.interpolationFn = inrtia.getInterpolation(interpolationSelect.value);
   }

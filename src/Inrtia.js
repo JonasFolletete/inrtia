@@ -1,11 +1,11 @@
-import linear from './functions/linear';
+import basic from './functions/basic';
 import elastic from './functions/elastic';
 import bounce from './functions/bounce';
 
 class Inrtia {
   constructor({
     value,
-    interpolation = 'linear',
+    interpolation = 'basic',
     precisionStop = 0.001,
     perfectStop = false,
     rigidity = 0.1,
@@ -49,7 +49,7 @@ class Inrtia {
       case 'bounce':
         return bounce;
       default:
-        return linear;
+        return basic;
     }
   }
 

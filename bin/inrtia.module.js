@@ -1,4 +1,4 @@
-var linear = function (current, target, params) {
+var basic = function (current, target, params) {
   var delta = current - target;
   return current - delta / params.friction;
 };
@@ -74,7 +74,7 @@ var Inrtia = function () {
   function Inrtia(_ref) {
     var value = _ref.value,
         _ref$interpolation = _ref.interpolation,
-        interpolation = _ref$interpolation === undefined ? 'linear' : _ref$interpolation,
+        interpolation = _ref$interpolation === undefined ? 'basic' : _ref$interpolation,
         _ref$precisionStop = _ref.precisionStop,
         precisionStop = _ref$precisionStop === undefined ? 0.001 : _ref$precisionStop,
         _ref$perfectStop = _ref.perfectStop,
@@ -128,7 +128,7 @@ var Inrtia = function () {
         case 'bounce':
           return bounce;
         default:
-          return linear;
+          return basic;
       }
     }
   }, {

@@ -121,7 +121,7 @@ var Inrtia = function () {
     this.perfectStop = perfectStop;
 
     // Interpolation params
-    this.interpolationFn = this.getInterpolation(interpolation);
+    this.interpolationFn = interpolation instanceof Function ? interpolation : this.getInterpolation(interpolation);
     this.interpolationParams = { rigidity: rigidity, friction: friction, mass: mass };
   }
 

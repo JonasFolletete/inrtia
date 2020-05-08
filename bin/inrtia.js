@@ -142,7 +142,7 @@ var Inrtia = function () {
 
         while (l--) {
           key = this.keys[l];
-          if (targetValue[key]) this.targetValue[key] = targetValue[key];
+          if (targetValue[key] || targetValue[key] === 0) this.targetValue[key] = targetValue[key];
         }
       } else {
         this.targetValue = targetValue;
